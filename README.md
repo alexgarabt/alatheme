@@ -41,14 +41,21 @@ alatheme --showthemes github
 ```console
 alatheme --showthemes all
 ```
-
 *Change the color theme:* (The given new theme will be searched in the themes path)
 ```console
 alatheme --set newthemename
 ```
+*Show help for use and flags*
+```console
+alatheme -h
+```
+
 *Example of use*
 ![Show themes and set new one](images/change1.png)
 ![Show themes with new one](images/change2.png)
+
+### Configuration
+All the paths are set in default but can be changed with use of flags or to make permanet the change, replace the default for yours in the source code
 
 ### Themes
 The themes can be found in the official repository of alacritty [alacritty-themes](https://github.com/alacritty/alacritty-theme)
