@@ -55,7 +55,7 @@ alatheme -h
 ![Show themes with new one](images/change2.png)
 
 ### Configuration
-All the paths are set in default but can be changed with use of flags or to make permanet the change, replace the default for yours in the source code
+All the paths are set in default but can be changed with use of flags or to make permanet the change: replace the default for yours in the source code
 
 ### Themes
 The themes can be found in the official repository of alacritty [alacritty-themes](https://github.com/alacritty/alacritty-theme)
