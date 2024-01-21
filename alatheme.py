@@ -20,30 +20,30 @@ MARK_END_THEME_CONFIG = "#end_theme"
 # end of configuration
 
 
-"""
-Returns all the files with a specified extension in the specified path
-"""
 def get_files_with_extension(path: str, extension: str) -> list[str]:
+    """
+    Returns all the files with a specified extension in the specified path
+    """
     files = []
     for file in os.listdir(path):
         if file.endswith(extension):
             files.append(file)
     return files
 
-"""
-Extract from the string the substring at the end, if the strings contains it
-and return the string without the subtring
-"""
 def extract_final_substring(string: str, substring: str):
+    """
+    Extract from the string the substring at the end, if the strings contains it
+    and return the string without the subtring
+    """
     index = string.find(substring)
     return string[0:index] if index != -1 else None
     
-"""
-Truns the given iterable into a columnify representable, by sorting the objects 
-insede by lenght of its string representation, so it can be pretty divided in
-'equal' colums
-"""
 def columnify(iterable):
+    """
+    Truns the given iterable into a columnify representable, by sorting the objects 
+    insede by lenght of its string representation, so it can be pretty divided in
+    'equal' colums
+    """
     # First convert everything to its repr
     strings = [repr(x) for x in iterable]
     # Now pad all the strings to match the widest
@@ -51,11 +51,11 @@ def columnify(iterable):
     padded = [x.ljust(widest) for x in strings]
     return padded
 
-"""
-Print into the standard output the contains of the iterable in a 'preatty' way, print 
-the elements by columns with the same length
-"""
 def colprint(iterable):
+    """
+    Print into the standard output the contains of the iterable in a 'preatty' way, print 
+    the elements by columns with the same length
+    """
     size = os.get_terminal_size()
     width = size.columns
     columns = columnify(iterable)
@@ -68,13 +68,13 @@ def colprint(iterable):
             print('\n  ', end='')
     print("")
 
-"""
-Show the themes in the alacritty themes path
-
-Raises:
-    FileNotFoundError: If the new theme or config file or themes path dosent exits
-"""
 def show_themes(path:str = THEMES_PATH, extension: str=THEMES_EXTENSION, initial_name: str=""):
+    """
+    Show the themes in the alacritty themes path
+    
+    Raises:
+        FileNotFoundError: If the new theme or config file or themes path dosent exits
+    """
 
     themes_path_check = Path(path)
     if not themes_path_check.exists():
@@ -89,14 +89,14 @@ def show_themes(path:str = THEMES_PATH, extension: str=THEMES_EXTENSION, initial
 
     colprint(themes)
 
-"""
-Returns a tuple with the first index and the last index of the elements 
-of list in between the given marks
-
-    init_mark = index of initial element mark
-    end_mark = index of last element mark
-"""
 def get_lines_between_marks(list_lines: list, init_mark, end_mark) -> tuple[int, int]:
+    """
+    Returns a tuple with the first index and the last index of the elements 
+    of list in between the given marks
+    
+        init_mark = index of initial element mark
+        end_mark = index of last element mark
+    """
     
     init: int = None
     end: int = None
@@ -108,30 +108,30 @@ def get_lines_between_marks(list_lines: list, init_mark, end_mark) -> tuple[int,
             end = i
     return (init, end)
 
-"""
-Repalce the color theme of the alactritty configuration with the provided one
-Args:
-    new_theme: str  
-        String name of the new theme to set (without the extension).
-    config_file_path: str, default=CONFIG_FILE_PATH 
-        Path of the config file of alacritty.
-    themes_path: str, default=THEMES_PATH 
-        Path o the directory with the file.
-    init_mark: str, default=MARK_INIT_THEME_CONFIG 
-        Initial mark of the theme import in configuration file.
-    end_mark: str, default=MARK_END_THEME_CONFIG 
-        Last mark of the theme import in configuration file.
-    extension: str, default=THEMES_EXTENSION
-        Extension that should have the theme file
-Raises:
-    FileNotFoundError: If the new theme or config file or themes path dosent exits
-    LookupError: If the init and end marks arent in the file
-"""
 def replace_theme(new_theme: str, config_file_path: str=CONFIG_FILE_PATH
                   , themes_path: str=THEMES_PATH
                   , init_mark: str=MARK_INIT_THEME_CONFIG, end_mark:str =MARK_END_THEME_CONFIG
                   , extension: str=THEMES_EXTENSION):
 
+    """
+    Repalce the color theme of the alactritty configuration with the provided one
+    Args:
+        new_theme: str  
+            String name of the new theme to set (without the extension).
+        config_file_path: str, default=CONFIG_FILE_PATH 
+            Path of the config file of alacritty.
+        themes_path: str, default=THEMES_PATH 
+            Path o the directory with the file.
+        init_mark: str, default=MARK_INIT_THEME_CONFIG 
+            Initial mark of the theme import in configuration file.
+        end_mark: str, default=MARK_END_THEME_CONFIG 
+            Last mark of the theme import in configuration file.
+        extension: str, default=THEMES_EXTENSION
+            Extension that should have the theme file
+    Raises:
+        FileNotFoundError: If the new theme or config file or themes path dosent exits
+        LookupError: If the init and end marks arent in the file
+    """
     with open(config_file_path, 'r') as file:
         lines = file.readlines()
 
@@ -165,27 +165,27 @@ def replace_theme(new_theme: str, config_file_path: str=CONFIG_FILE_PATH
         raise LookupError("Error: Didnt found the initial and en mark lines for import color theme \n Initial mark before import: " + init_mark
                           + "\n End mark after the import: " + end_mark)
 
-"""
-Return the actual the of colors in the config file
-Args:
-    config_file_path: str, default=CONFIG_FILE_PATH 
-        Path of the config file of alacritty.
-    themes_path: str, default=THEMES_PATH 
-        Path o the directory with the file.
-    init_mark: str, default=MARK_INIT_THEME_CONFIG 
-        Initial mark of the theme import in configuration file.
-    end_mark: str, default=MARK_END_THEME_CONFIG 
-        Last mark of the theme import in configuration file.
-    extension: str, default=THEMES_EXTENSION
-        Extension that should have the theme file
-Raises:
-    FileNotFoundError: If the new theme or config file or themes path dosent exits
-    LookupError: If the init and end marks arent in the file
-"""
 def get_actual_theme(config_file_path: str=CONFIG_FILE_PATH, themes_path: str=THEMES_PATH
                      , init_mark: str=MARK_INIT_THEME_CONFIG, end_mark:str =MARK_END_THEME_CONFIG
                      , extension=THEMES_EXTENSION) -> str:
 
+    """
+    Return the actual the of colors in the config file
+    Args:
+        config_file_path: str, default=CONFIG_FILE_PATH 
+            Path of the config file of alacritty.
+        themes_path: str, default=THEMES_PATH 
+            Path o the directory with the file.
+        init_mark: str, default=MARK_INIT_THEME_CONFIG 
+            Initial mark of the theme import in configuration file.
+        end_mark: str, default=MARK_END_THEME_CONFIG 
+            Last mark of the theme import in configuration file.
+        extension: str, default=THEMES_EXTENSION
+            Extension that should have the theme file
+    Raises:
+        FileNotFoundError: If the new theme or config file or themes path dosent exits
+        LookupError: If the init and end marks arent in the file
+    """
     with open(config_file_path, 'r') as file:
         lines: list[str] = file.readlines()
 
@@ -212,35 +212,11 @@ def get_actual_theme(config_file_path: str=CONFIG_FILE_PATH, themes_path: str=TH
     return extract_final_substring(path_list[len(path_list)-1], extension)
 
 
-"""
-Interactive window for show and change of themes of alacritty
-"""
-def interactive_window():
-    print("=================================================")
-    print("Alacritty color theme selector")
-    print("=================================================")
-    print("Option (1): Show themes in config path")
-    print("Option (2): Change theme")
-    print("Option (3): Get name of actual theme")
-    print("Other = exit")
-    print("=================================================")
-    election: str = input("Enter option: ")
 
-    if election == "1":
-        name: str = input("Enter init name of search (default all): ")
-        show_themes(initial_name=name)
-    elif election == "2":
-        name_theme: str = input("Enter the name of the new theme: ")
-        theme = replace_theme(name_theme,  init_mark=MARK_INIT_THEME_CONFIG, end_mark=MARK_END_THEME_CONFIG)
-        print(f'Changed theme to {theme}')
-    elif election == "3":
-        print(f"Actual theme: "+get_actual_theme())
-    else: return
-
-"""
-Fuction in charge of command execute
-"""
 def main():
+    """
+    Fuction in charge of command execute
+    """
 
     all_str_op_show_themes = "all"
 
