@@ -13,6 +13,9 @@ CONFIG_FILE = "alacritty.toml"
 CONFIG_FILE_PATH = CONFIG_PATH + CONFIG_FILE
 THEMES_PATH = CONFIG_PATH+"themes/themes/"
 THEMES_EXTENSION = ".toml"
+
+FAV_THEMES_PATH = CONFIG_PATH + "themes/fav_themes/"
+
 #  Marks of where is the import of color theme
 MARK_INIT_THEME_CONFIG = "#init_theme"
 MARK_END_THEME_CONFIG = "#end_theme"
@@ -228,6 +231,12 @@ def main():
                         , action="store_true"
                         , default=""
                         , help="Show the actual color theme used in config file.")
+ 
+    parser.add_argument("--fav"
+                        , dest='is_fav'
+                        , action="store_true"
+                        , default=FAV_THEMES_PATH
+                        , help="Themes path be set to the preconfigured path for fav themes.")
 
     parser.add_argument("--set"
                         , dest='change_theme'
@@ -294,6 +303,8 @@ def main():
     args = parser.parse_args()
     
     call_get_actual_theme = args.actual_theme
+    
+    is_fav = args.is_fav
 
     change_theme = args.change_theme
     if type(change_theme) is list: change_theme = change_theme[0]
@@ -322,6 +333,9 @@ def main():
     print(themes_extension)
     print(init_mark)
     print(end_mark)"""
+
+    if is_fav:
+        themes_path = FAV_THEMES_PATH
 
     if call_get_actual_theme:
         try:
