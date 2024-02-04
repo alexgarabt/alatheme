@@ -235,7 +235,6 @@ def main():
     parser.add_argument("--fav"
                         , dest='is_fav'
                         , action="store_true"
-                        , default=FAV_THEMES_PATH
                         , help="Themes path be set to the preconfigured path for fav themes.")
 
     parser.add_argument("--set"
@@ -335,6 +334,7 @@ def main():
     print(end_mark)"""
 
     if is_fav:
+        print("hello")
         themes_path = FAV_THEMES_PATH
 
     if call_get_actual_theme:
