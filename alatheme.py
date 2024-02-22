@@ -334,7 +334,6 @@ def main():
     print(end_mark)"""
 
     if is_fav:
-        print("hello")
         themes_path = FAV_THEMES_PATH
 
     if call_get_actual_theme:
